@@ -1,4 +1,4 @@
-![logo](../logo-light.svg)
+![logo](logo-light.svg)
 
 ## 概述
 

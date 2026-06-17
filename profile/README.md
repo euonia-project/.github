@@ -6,83 +6,7 @@
 
 ---
 
-## 核心设计理念
-
-Euonia 在两个技术栈上追求**架构一致性**与**语言惯用性**的平衡：
-
-| 设计维度 | .NET 版本 | Java 版本 |
-|---------|-----------|-----------|
-| **目标平台** | .NET 8+ / .NET Standard 2.1+ | Java 17+（Sample 模块支持 Java 25 + Spring Boot 4.x） |
-| **依赖注入** | 标记接口自动注册（`ITransientDependency` / `IScopedDependency` / `ISingletonDependency`） | Spring `ApplicationContext` 集成 + 自定义 `ServiceProvider` 桥接 |
-| **模块化** | `Euonia.Modularity` 插件式模块生命周期管理 | Maven 多模块 + Spring `@Configuration` 自动装配 |
-| **异步模型** | `Task` / `async-await` | `CompletionStage<T>` / `CompletableFuture<T>` |
-| **消息传递** | Pipeline + IBus（Publish / Send / Call） | Pipeline + Bus（`publishAsync` / `sendAsync` / `callAsync`） |
-
----
-
-## 模块架构对比
-
-```mermaid
-graph TB
-    subgraph ".NET 生态"
-        direction TB
-        NET_Core["Euonia.Core<br/>基础工具/反射/异常"]
-        NET_Modularity["Euonia.Modularity<br/>插件式模块化"]
-        NET_Domain["Euonia.Domain<br/>DDD：Entity/Aggregate/ValueObject"]
-        NET_Repository["Euonia.Repository<br/>通用仓储（EFCore/Mongo）"]
-        NET_Bus["Euonia.Bus<br/>消息总线（InMem/RabbitMQ/ActiveMQ）"]
-        NET_Caching["Euonia.Caching<br/>缓存抽象（Redis/Memory）"]
-        NET_Osba["Euonia.Osba<br/>OSBA 业务对象"]
-        NET_Uow["Euonia.Uow<br/>工作单元"]
-        NET_Pipeline["Euonia.Pipeline<br/>管道中间件"]
-        NET_Threading["Euonia.Threading<br/>分布式锁（ZK/Redis/Azure）"]
-        NET_Mapping["Euonia.Mapping<br/>对象映射（AutoMapper/Mapster）"]
-        NET_App["Euonia.Application<br/>应用服务/用例"]
-    end
-
-    subgraph "Java 生态"
-        direction TB
-        JV_Core["euonia-core<br/>基础工具/反射/ID生成/元组"]
-        JV_DDD["euonia-ddd<br/>DDD：Entity/Aggregate/ValueObject/Event"]
-        JV_Osba["euonia-osba<br/>OSBA 业务对象 + 规则引擎"]
-        JV_Uow["euonia-uow<br/>工作单元"]
-        JV_Pipeline["euonia-pipeline<br/>管道中间件"]
-        JV_BusAbs["euonia-bus-abstract<br/>消息总线契约层"]
-        JV_BusCore["euonia-bus-core<br/>消息总线运行时"]
-        JV_BusMem["euonia-bus-inmemory<br/>内存传输"]
-        JV_BusRabbit["euonia-bus-rabbitmq<br/>RabbitMQ 传输"]
-        JV_BusKafka["euonia-bus-kafka<br/>Kafka 传输"]
-        JV_Spring["euonia-spring<br/>Spring 集成桥接"]
-    end
-
-    NET_Core --> NET_Modularity
-    NET_Modularity --> NET_Bus
-    NET_Modularity --> NET_Caching
-    NET_Core --> NET_Domain
-    NET_Domain --> NET_Repository
-    NET_Domain --> NET_Bus
-    NET_Core --> NET_Osba
-    NET_Core --> NET_Uow
-    NET_Core --> NET_App
-
-    JV_Core --> JV_DDD
-    JV_Core --> JV_Osba
-    JV_Core --> JV_Uow
-    JV_Core --> JV_Pipeline
-    JV_Core --> JV_BusAbs
-    JV_BusAbs --> JV_BusCore
-    JV_Pipeline --> JV_BusCore
-    JV_BusAbs --> JV_BusMem
-    JV_BusAbs --> JV_BusRabbit
-    JV_BusAbs --> JV_BusKafka
-    JV_Spring --> JV_Pipeline
-    JV_Spring --> JV_Uow
-    JV_Spring --> JV_Osba
-```
-
----
-
-## 共性能力
+## 核心模块
 
 两个版本在以下核心领域提供一致的抽象：
 
@@ -109,11 +33,6 @@ graph TB
 - 统一类型化管道：`Pipeline<TRequest, TResponse>` 覆盖即发即忘和请求-响应场景
 - Fluent API（`.use()`）+ 注解自动发现
 - 全链路异步执行
-
-### 5. Unit of Work（工作单元）
-- 事务边界管理：`commit` / `rollback` / `saveChanges`
-- 嵌套工作单元支持（Outer / Inner / Child）
-- AOP 拦截器（`UnitOfWorkInterceptor`）
 
 ---
 
