@@ -1,1 +1,1 @@
-
+![logo](logo-light.svg)
