@@ -117,55 +117,6 @@ graph TB
 
 ---
 
-## .NET 版本独有特性
-
-| 模块 | 说明 |
-|------|------|
-| **Euonia.Modularity** | 完整的插件式模块化框架，`IModuleLifecycle` 生命周期管理 |
-| **Euonia.Hosting** | AspNetCore 宿主抽象，中间件配置、请求追踪 |
-| **Euonia.Repository** | 通用仓储抽象 + EF Core / MongoDB 实现，链式 LINQ 查询构建 |
-| **Euonia.Caching** | 多级缓存抽象（Memory / Redis / Runtime），支持绝对/相对过期 |
-| **Euonia.Threading** | 分布式同步原语（ZooKeeper / Redis / Azure / FileSystem） |
-| **Euonia.Mapping** | AutoMapper / Mapster 适配器 |
-| **Euonia.Validation** | FluentValidation 集成 |
-| **Euonia.Grpc** | gRPC 健康检查与反射支持 |
-| **Euonia.Quartz** | Quartz.NET 任务调度集成 |
-
----
-
-## Java 版本独有特性
-
-| 模块 | 说明 |
-|------|------|
-| **ID 生成策略** | `SnowflakeId`（Twitter 风格 64 位）、`ULID`（Crockford Base32）、`ObjectId`（多种策略统一入口） |
-| **不可变元组** | 强类型元组 `Solo` ～ `Decet`（1～10 元素） |
-| **HTTP 异常层次** | 完整的 HTTP 状态码异常映射（400～503） |
-| **Spring 集成** | `ApplicationContextServiceProvider` 桥接，无缝融入 Spring Boot 生态 |
-| **Bus 抽象层** | 独立的消息契约模块（`bus-abstract`），十种注解驱动消息分类与路由 |
-| **信使引擎** | `StrongReferenceMessenger`（精确匹配）/ `WeakReferenceMessenger`（GC 自动退订）双模式引用管理 |
-| **事件体系** | 完整的消息处理事件流：`Delivered → Received → Acknowledged → Replied → Handled` |
-
----
-
-## 技术栈总览
-
-| 维度 | .NET 版本 | Java 版本 |
-|------|-----------|-----------|
-| **语言** | C# | Java |
-| **构建工具** | MSBuild / dotnet CLI | Maven |
-| **IoC 容器** | Autofac / Microsoft.Extensions.DI | Spring Framework |
-| **数据访问** | EF Core, MongoDB.Driver | Spring Data JPA（Sample） |
-| **消息中间件** | RabbitMQ.Client, Apache.NMS (ActiveMQ) | RabbitMQ AMQP Client, Kafka |
-| **缓存** | StackExchange.Redis, MemoryCache | — |
-| **映射** | AutoMapper, Mapster | — |
-| **调度** | Quartz.NET | — |
-| **RPC** | gRPC (Google.Protobuf) | — |
-| **日志** | Serilog | SLF4J / Logback（Spring Boot 默认） |
-| **分布式锁** | ZooKeeper, Redis, Azure | — |
-| **API 文档** | Swashbuckle (Swagger) | SpringDoc OpenAPI（Sample） |
-
----
-
 ## 设计模式与架构风格
 
 Euonia 贯穿以下企业级设计模式：
@@ -184,12 +135,3 @@ Euonia 贯穿以下企业级设计模式：
 ## 项目定位
 
 Euonia 是一个**架构框架**而非单纯的工具库。它不绑定特定的业务领域，而是提供企业级应用开发所需的横切关注点（Cross-cutting Concerns）和架构脚手架，让开发团队能够专注于核心业务逻辑的实现。无论是 .NET 还是 Java 技术栈，Euonia 都提供了连贯一致的编程模型，降低跨技术栈团队的认知负担，加速分布式系统的构建与交付。
-
----
-
-## 仓库
-
-| 语言 | 仓库 |
-|------|------|
-| .NET | [euonia-dotnet](https://github.com/euonia-project/euonia-dotnet) |
-| Java | [euonia-java](https://github.com/euonia-project/euonia-java) |
