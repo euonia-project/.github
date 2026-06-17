@@ -8,8 +8,6 @@
 
 ## 核心模块
 
-两个版本在以下核心领域提供一致的抽象：
-
 ### 1. 领域驱动设计（DDD）
 - **Entity / Aggregate / ValueObject**：完整的领域对象层级，聚合根内建领域事件管理
 - **DomainEvent / ApplicationEvent**：事件溯源（Event Sourcing）支持，事件携带 originator 元数据
